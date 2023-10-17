@@ -28,8 +28,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    // const database = client.db("insertDB");
-    // const haiku = database.collection("haiku");
+    // connect
 
     const productCollection = client.db("productDB").collection("products");
 
