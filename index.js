@@ -30,12 +30,36 @@ async function run() {
 
     // connect
     const productCollection = client.db("productDB").collection("products");
+    const cartCollection = client.db("productDB").collection("carts");
 
     // post
     app.post("/products", async (req, res) => {
       const product = req.body;
       console.log(product);
       const result = await productCollection.insertOne(product);
+      console.log(result);
+      res.send(result);
+    });
+    // add carts
+    app.post("/carts", async (req, res) => {
+      const carts = req.body;
+      delete carts._id;
+      const result = await cartCollection.insertOne(carts);
+      console.log(result);
+      res.send(result);
+    });
+    // get carts
+    app.get("/carts", async (req, res) => {
+      const result = await cartCollection.find().toArray();
+      res.send(result);
+    });
+    // delete one cart
+    app.delete("/carts/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = {
+        _id: new ObjectId(id),
+      };
+      const result = await cartCollection.deleteOne(query);
       console.log(result);
       res.send(result);
     });
